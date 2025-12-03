@@ -1,0 +1,199 @@
+/* Virtual Keyboard - Optimized for 4cm x 10cm touch screen */
+.virtual-keyboard-overlay {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 200; /* Higher than notes panel (z-index: 100) and controls (z-index: 150) */
+  display: flex;
+  align-items: flex-end;
+  animation: slideUp 0.3s ease-out;
+  pointer-events: auto;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.virtual-keyboard {
+  width: 100%;
+  background: rgba(17, 24, 39, 0.98);
+  border-top: 2px solid rgba(0, 212, 255, 0.3);
+  padding: 0.5rem;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+.keyboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+  margin-bottom: 0.5rem;
+}
+
+.keyboard-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #00d4ff;
+}
+
+.keyboard-close-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  width: 28px;
+  height: 28px;
+  border-radius: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 200ms;
+}
+
+.keyboard-close-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.keyboard-close-btn .icon {
+  width: 16px;
+  height: 16px;
+}
+
+.keyboard-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.keyboard-row {
+  display: flex;
+  justify-content: center;
+  gap: 0.25rem;
+  flex-wrap: nowrap;
+}
+
+.keyboard-bottom-row {
+  margin-top: 0.25rem;
+}
+
+.keyboard-key {
+  min-height: 36px;
+  min-width: 28px;
+  padding: 0.5rem 0.375rem;
+  background: rgba(31, 41, 55, 0.7);
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  border-radius: 0.25rem;
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 150ms;
+  touch-action: manipulation;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  max-width: 40px;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.keyboard-key:active {
+  background: rgba(0, 212, 255, 0.3);
+  border-color: rgba(0, 212, 255, 0.5);
+  transform: scale(0.95);
+}
+
+.keyboard-key:hover {
+  background: rgba(0, 212, 255, 0.2);
+  border-color: rgba(0, 212, 255, 0.4);
+}
+
+.number-key {
+  flex: 1;
+  max-width: 32px;
+  font-size: 0.8125rem;
+}
+
+.letter-key {
+  flex: 1;
+  max-width: 36px;
+  font-size: 0.8125rem;
+}
+
+.special-key {
+  background: rgba(0, 212, 255, 0.2);
+  border-color: rgba(0, 212, 255, 0.3);
+  font-size: 0.6875rem;
+  min-width: 40px;
+  max-width: 50px;
+}
+
+.special-key:active {
+  background: rgba(0, 212, 255, 0.4);
+}
+
+.shift-key.active,
+.caps-key.active {
+  background: rgba(0, 212, 255, 0.4);
+  border-color: rgba(0, 212, 255, 0.6);
+}
+
+.space-key {
+  flex: 3;
+  min-width: 120px;
+  max-width: none;
+  font-size: 0.6875rem;
+}
+
+.enter-key,
+.backspace-key {
+  min-width: 44px;
+  max-width: 50px;
+}
+
+.enter-key .icon,
+.backspace-key .icon {
+  width: 18px;
+  height: 18px;
+}
+
+/* Compact layout for very narrow screens */
+@media (max-width: 400px) {
+  .keyboard-key {
+    min-height: 32px;
+    min-width: 24px;
+    padding: 0.375rem 0.25rem;
+    font-size: 0.6875rem;
+    max-width: 32px;
+  }
+
+  .letter-key {
+    max-width: 30px;
+  }
+
+  .number-key {
+    max-width: 28px;
+  }
+
+  .space-key {
+    min-width: 100px;
+  }
+
+  .special-key {
+    min-width: 36px;
+    max-width: 42px;
+  }
+}
+

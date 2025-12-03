@@ -1,0 +1,77 @@
+{
+  "name": "sagar-data-entry",
+  "version": "1.0.0",
+  "description": "Excel-like data entry software for scientists on tablets",
+  "main": "main.js",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "keywords": [
+    "data-entry",
+    "spreadsheet",
+    "scientist",
+    "tablet"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "@supabase/supabase-js": "^2.86.0",
+    "electron-is-dev": "^2.0.0",
+    "file-saver": "^2.0.5",
+    "framer-motion": "^10.18.0",
+    "jspdf": "^3.0.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.12.0",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "react-scripts": "5.0.1"
+  },
+  "optionalDependencies": {
+    "concurrently": "^8.2.2",
+    "electron": "^27.0.0",
+    "electron-builder": "^24.6.4",
+    "wait-on": "^7.2.0"
+  },
+  "build": {
+    "appId": "com.sagar.dataentry",
+    "productName": "SAGAR Data Entry",
+    "directories": {
+      "buildResources": "build"
+    },
+    "files": [
+      "build/**/*",
+      "main.js",
+      "preload.js",
+      "node_modules/**/*"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "build/icon.ico"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "build/icon.icns"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
