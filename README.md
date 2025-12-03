@@ -1,15 +1,15 @@
-# SAGAR Data Entry Software
+# Droplet - SAGAR Data Entry Software
 
-An Excel-like data entry application designed for scientists to use on portable field devices. Optimized for **10cm × 14cm portrait screen** running on **Alpine OS with Arduino-based hardware**. This application allows users to create custom header columns and enter data in a spreadsheet-like interface during on-site field visits.
+**Droplet** is an Excel-like data entry application designed for scientists to use on portable field devices. Optimized for **14cm × 10cm screen** (width × height) running on **Alpine OS with Arduino-based hardware**. This application allows users to create custom header columns and enter data in a spreadsheet-like interface during on-site field visits. The device also includes **DropletDesk**, an AI-powered marine biology taxonomy assistant powered by Gemini AI.
 
 ## Hardware Specifications
 
-- **Screen Size**: 4cm (width) × 10cm (height) - Portrait orientation
+- **Screen Size**: 14cm (width) × 10cm (height/length)
 - **Operating System**: Alpine Linux
 - **Hardware Platform**: Arduino-based embedded system
-- **Display Resolution**: ~236-315px × ~591-787px (at 150-200 DPI)
-- **Orientation**: Portrait (locked)
-- **Aspect Ratio**: Very narrow portrait (2.5:1)
+- **Display Resolution**: ~827-1102px × ~591-787px (at 150-200 DPI)
+- **Orientation**: Landscape (width > height)
+- **Aspect Ratio**: 1.4:1 (landscape)
 
 ## Features
 
@@ -17,7 +17,9 @@ An Excel-like data entry application designed for scientists to use on portable 
 - ✅ **Dynamic Column Management**: Add, rename, and delete columns on the fly
 - ✅ **Row Management**: Add and delete rows as needed
 - ✅ **Data Entry**: Easy cell editing with keyboard and touch support
-- ✅ **Alpine OS Optimized**: Optimized for 10cm × 14cm portrait screen
+- ✅ **Alpine OS Optimized**: Optimized for 14cm × 10cm screen (width × height)
+- ✅ **DropletDesk AI Assistant**: Voice-to-text AI assistant for marine taxonomy queries using Gemini AI
+- ✅ **Virtual Keyboard**: On-screen keyboard optimized for touch input
 - ✅ **Large Touch Targets**: 48-56px minimum for easy field use
 - ✅ **Export Functionality**: Export data to Excel (.xlsx) or CSV format
 - ✅ **Data Ingestion**: Ingest data to DataProcessingEngine with quality control
@@ -123,7 +125,7 @@ To enable data ingestion and quality reporting:
    ```
 
 2. **Configure API URL** (optional):
-   - Create a `.env` file in the data-entry-software directory
+   - Create a `.env` file in the Droplet directory
    - Add: `REACT_APP_PROCESSING_API_URL=http://localhost:8000`
    - Default is `http://localhost:8000` if not specified
 
@@ -182,8 +184,8 @@ npm install electron-builder --save-dev
    - Set as startup application
 
 5. **Screen Configuration:**
-   - Ensure display is set to portrait mode
-   - Resolution should match 10cm × 14cm physical dimensions
+   - Ensure display is set to landscape mode (width 14cm × height 10cm)
+   - Resolution should match 14cm × 10cm physical dimensions
    - Touch calibration may be required for accurate input
 
 ## Usage
@@ -232,13 +234,15 @@ npm install electron-builder --save-dev
 ## Project Structure
 
 ```
-data-entry-software/
+Droplet/
 ├── public/
 │   └── index.html          # HTML template
 ├── src/
 │   ├── components/
 │   │   ├── Spreadsheet.js  # Main spreadsheet component
-│   │   └── Spreadsheet.css # Spreadsheet styles
+│   │   ├── Spreadsheet.css # Spreadsheet styles
+│   │   ├── DropletDesk.js  # AI assistant component
+│   │   └── DropletDesk.css # DropletDesk styles
 │   ├── App.js              # Main app component
 │   ├── App.css             # App styles
 │   ├── index.js            # React entry point
