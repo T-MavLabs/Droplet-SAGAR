@@ -6,6 +6,10 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build:pi": "GENERATE_SOURCEMAP=false INLINE_RUNTIME_CHUNK=false react-scripts build",
+    "serve": "node server.js",
+    "serve:py": "python3 server.py",
+    "package:pi": "npm run build:pi && tar -czf droplet-pi.tar.gz build/ server.js server.py package.json --exclude=node_modules",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

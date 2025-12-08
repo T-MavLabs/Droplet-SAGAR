@@ -34,3 +34,7 @@ dist/
 *.exe
 *.dmg
 *.AppImage
+
+# Raspberry Pi deployment
+droplet-pi.tar.gz
+*.tar.gz
