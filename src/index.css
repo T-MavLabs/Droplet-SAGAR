@@ -73,23 +73,7 @@ body {
   line-height: 1.4; /* Tighter line height */
 }
 
-/* Portrait orientation lock */
-@media screen and (orientation: landscape) {
-  body::before {
-    content: "Please rotate device to portrait mode";
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(10, 25, 41, 0.95);
-    color: #00d4ff;
-    padding: 2rem;
-    border-radius: 0.5rem;
-    z-index: 9999;
-    font-size: 1.25rem;
-    text-align: center;
-  }
-}
+/* Portrait orientation lock - removed to allow horizontal orientation */
 
 /* Optimize for 4cm x 10cm screen - very narrow */
 @media (max-width: 400px) {
