@@ -19,13 +19,13 @@
   bottom: 0;
 }
 
-/* Toolbar - Ultra-compact for 4cm x 10cm screen */
+/* Toolbar - Ultra-compact for 3.5 inch screen */
 .toolbar {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem 0.5rem; /* Minimal padding */
+  padding: 0.375rem 0.375rem; /* Minimal padding for 3.5 inch screen */
   background: rgba(10, 25, 41, 0.98); /* bg-marine-blue/98 */
   backdrop-filter: blur(4px); /* backdrop-blur-sm */
   border-bottom: 1px solid rgba(0, 212, 255, 0.2); /* border-b border-marine-cyan/20 */
@@ -33,8 +33,8 @@
   position: sticky;
   top: 0;
   z-index: 50;
-  gap: 0.375rem;
-  min-height: 50px; /* Fixed compact height */
+  gap: 0.25rem;
+  min-height: 42px; /* Fixed compact height for 3.5 inch screen */
 }
 
 .toolbar-left,
@@ -68,18 +68,18 @@
 }
 
 .filename-input {
-  padding: 0.5rem 0.625rem; /* Compact padding */
+  padding: 0.375rem 0.5rem; /* Compact padding for 3.5 inch screen */
   background: rgba(31, 41, 55, 0.5); /* bg-gray-800/50 */
   border: 1px solid #374151; /* border border-gray-700 */
   border-radius: 0.25rem; /* Smaller radius */
   color: #ffffff; /* text-white */
-  font-size: 13px; /* Smaller font */
-  min-width: 100px;
+  font-size: 11px; /* Smaller font for 3.5 inch screen */
+  min-width: 80px;
   flex: 1;
-  min-height: 36px; /* Compact touch target */
+  min-height: 30px; /* Compact touch target for 3.5 inch screen */
   transition: all 200ms;
   position: relative;
-  padding-right: 1.5rem; /* Space for cursor */
+  padding-right: 1.25rem; /* Space for cursor */
 }
 
 .filename-input::placeholder {
@@ -209,17 +209,17 @@
 }
 
 .toolbar-btn {
-  padding: 0.5rem 0.75rem; /* Compact padding */
+  padding: 0.375rem 0.5rem; /* Compact padding for 3.5 inch screen */
   background: #00d4ff; /* bg-marine-cyan */
   color: #0a1929; /* text-marine-blue */
   border: none;
-  border-radius: 0.375rem; /* Smaller radius */
+  border-radius: 0.25rem; /* Smaller radius */
   cursor: pointer;
-  font-size: 0.75rem; /* Smaller font */
+  font-size: 0.625rem; /* Smaller font for 3.5 inch screen */
   font-weight: 600; /* font-semibold */
   transition: all 200ms; /* transition-all duration-200 */
-  min-height: 36px; /* Compact touch target */
-  min-width: 36px;
+  min-height: 30px; /* Compact touch target for 3.5 inch screen */
+  min-width: 30px;
   touch-action: manipulation;
   white-space: nowrap;
   box-shadow: 0 4px 6px -2px rgba(0, 212, 255, 0.2);
@@ -356,19 +356,19 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-width: 70px; /* Ultra-compact for 4cm width screen */
-  width: 70px;
-  padding: 0.5rem 0.375rem; /* Minimal padding */
+  min-width: 60px; /* Ultra-compact for 3.5 inch screen */
+  width: 60px;
+  padding: 0.375rem 0.25rem; /* Minimal padding for 3.5 inch screen */
   background: rgba(17, 24, 39, 0.5); /* bg-gray-900/50 */
   color: #ffffff;
   font-weight: 600; /* font-semibold */
-  font-size: 0.6875rem; /* Very small font */
+  font-size: 0.625rem; /* Very small font for 3.5 inch screen */
   border-right: 1px solid #374151; /* border-gray-700 */
   border-bottom: 2px solid #374151;
   position: relative;
   cursor: pointer;
   transition: all 200ms; /* duration-200 */
-  min-height: 40px; /* Compact height */
+  min-height: 32px; /* Compact height for 3.5 inch screen */
   overflow: visible; /* Allow plus buttons to show */
 }
 
@@ -393,12 +393,12 @@
   background: transparent;
   border: none;
   color: #ffffff;
-  font-size: 0.875rem; /* text-sm */
+  font-size: 0.6875rem; /* Smaller font for 3.5 inch screen */
   font-weight: 600; /* font-semibold */
-  padding: 0.25rem 0.5rem;
-  padding-right: 1.5rem; /* Space for cursor */
+  padding: 0.125rem 0.375rem;
+  padding-right: 1.25rem; /* Space for cursor */
   border-radius: 0.25rem;
-  min-height: 32px;
+  min-height: 28px;
   transition: all 200ms;
 }
 
@@ -443,9 +443,9 @@
 
 /* Index Cell */
 .index-cell {
-  min-width: 35px; /* Ultra-compact */
-  width: 35px;
-  padding: 0.5rem 0.25rem; /* Minimal padding */
+  min-width: 28px; /* Ultra-compact for 3.5 inch screen */
+  width: 28px;
+  padding: 0.375rem 0.125rem; /* Minimal padding for 3.5 inch screen */
   background: rgba(17, 24, 39, 0.5); /* bg-gray-900/50 */
   border-right: 2px solid #374151; /* border-gray-700 */
   border-bottom: 1px solid #374151;
@@ -453,14 +453,14 @@
   align-items: center;
   justify-content: center;
   font-weight: 600;
-  font-size: 0.6875rem; /* Very small font */
+  font-size: 0.625rem; /* Very small font for 3.5 inch screen */
   color: #9ca3af; /* text-gray-400 */
   position: sticky;
   left: 0;
   z-index: 3;
   cursor: pointer;
   transition: all 200ms; /* duration-200 */
-  min-height: 40px; /* Match data cell height */
+  min-height: 32px; /* Match data cell height for 3.5 inch screen */
 }
 
 .index-cell:hover {
@@ -508,14 +508,14 @@
 }
 
 .data-cell {
-  min-width: 70px; /* Ultra-compact for 4cm width screen */
-  width: 70px;
-  padding: 0.375rem; /* Minimal padding */
+  min-width: 60px; /* Ultra-compact for 3.5 inch screen */
+  width: 60px;
+  padding: 0.25rem; /* Minimal padding for 3.5 inch screen */
   border-right: 1px solid #374151; /* border-gray-700 */
   background: rgba(17, 24, 39, 0.5); /* bg-gray-900/50 */
   cursor: cell;
   position: relative;
-  min-height: 40px; /* Compact height */
+  min-height: 32px; /* Compact height for 3.5 inch screen */
   display: flex;
   align-items: center;
   touch-action: manipulation;
@@ -538,11 +538,11 @@
 
 .cell-content {
   width: 100%;
-  padding: 0.25rem;
+  padding: 0.125rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 0.875rem; /* text-sm */
+  font-size: 0.6875rem; /* Smaller font for 3.5 inch screen */
   color: #ffffff;
 }
 
@@ -558,14 +558,14 @@
   width: 100%;
   height: 100%;
   border: none;
-  padding: 0.375rem; /* Minimal padding */
-  padding-right: 1.5rem; /* Space for cursor */
-  font-size: 13px; /* Smaller font for narrow screen */
+  padding: 0.25rem; /* Minimal padding for 3.5 inch screen */
+  padding-right: 1.25rem; /* Space for cursor */
+  font-size: 11px; /* Smaller font for 3.5 inch screen */
   font-family: inherit;
   background: rgba(31, 41, 55, 0.5); /* bg-gray-800/50 */
   color: #ffffff;
   outline: none;
-  min-height: 40px; /* Compact touch target */
+  min-height: 32px; /* Compact touch target for 3.5 inch screen */
   border-radius: 0.25rem;
 }
 
