@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiPlus, FiFile, FiCalendar, FiTrash2, FiEdit3, FiArrowRight, FiLogOut } from 'react-icons/fi';
+import { FiPlus, FiFile, FiCalendar, FiTrash2, FiEdit3, FiArrowRight, FiLogOut, FiX } from 'react-icons/fi';
 import { getEntries, deleteEntry } from '../utils/fileManager';
 import EntryCard from './EntryCard';
 import QualityReport from './QualityReport';
+import { TEMPLATES } from '../utils/templateLoader';
 import './Dashboard.css';
 
 const Dashboard = ({ onSelectEntry, onNewEntry, onBack }) => {
   const [entries, setEntries] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedReport, setSelectedReport] = useState(null);
+  const [showTemplateModal, setShowTemplateModal] = useState(false);
 
   useEffect(() => {
     loadEntries();
@@ -34,6 +36,17 @@ const Dashboard = ({ onSelectEntry, onNewEntry, onBack }) => {
     }
   };
 
+  const handleNewEntryClick = () => {
+    setShowTemplateModal(true);
+  };
+
+  const handleTemplateSelect = (template) => {
+    setShowTemplateModal(false);
+    if (onNewEntry) {
+      onNewEntry(template);
+    }
+  };
+
   return (
     <div className="dashboard-container">
       {/* Header */}
@@ -45,13 +58,17 @@ const Dashboard = ({ onSelectEntry, onNewEntry, onBack }) => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <div className="header-logo">
+            <div 
+              className="header-logo" 
+              onClick={onBack}
+              style={{ cursor: 'pointer' }}
+            >
               <FiFile className="logo-icon" />
               <span className="logo-text">SAGAR</span>
             </div>
           </motion.div>
           
-          <motion.div 
+          {/* <motion.div 
             className="header-nav"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -73,7 +90,7 @@ const Dashboard = ({ onSelectEntry, onNewEntry, onBack }) => {
               <FiLogOut className="icon" />
               Logout
             </button>
-          </motion.div>
+          </motion.div> */}
         </div>
       </header>
 
@@ -85,7 +102,7 @@ const Dashboard = ({ onSelectEntry, onNewEntry, onBack }) => {
             <h1 className="dashboard-title">Manage your Data Entry Files</h1>
             <motion.button 
               className="new-entry-btn"
-              onClick={onNewEntry}
+              onClick={handleNewEntryClick}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -110,7 +127,7 @@ const Dashboard = ({ onSelectEntry, onNewEntry, onBack }) => {
               <p>Create your first data entry file to get started</p>
               <button 
                 className="empty-action-btn"
-                onClick={onNewEntry}
+                onClick={handleNewEntryClick}
               >
                 <FiPlus className="icon" />
                 Create New Entry
@@ -150,6 +167,57 @@ const Dashboard = ({ onSelectEntry, onNewEntry, onBack }) => {
             qualityReport={selectedReport}
             onClose={() => setSelectedReport(null)}
           />
+        )}
+      </AnimatePresence>
+
+      {/* Template Selection Modal */}
+      <AnimatePresence>
+        {showTemplateModal && (
+          <motion.div
+            className="template-modal-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowTemplateModal(false)}
+          >
+            <motion.div
+              className="template-modal"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="template-modal-header">
+                <h2>Select a Template</h2>
+                <button
+                  className="template-modal-close"
+                  onClick={() => setShowTemplateModal(false)}
+                >
+                  <FiX className="icon" />
+                </button>
+              </div>
+              <div className="template-list">
+                {TEMPLATES.map((template) => (
+                  <motion.div
+                    key={template.id}
+                    className="template-item"
+                    onClick={() => handleTemplateSelect(template)}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <div className="template-icon">
+                      <FiFile className="icon" />
+                    </div>
+                    <div className="template-info">
+                      <h3>{template.name}</h3>
+                      <p>{template.description}</p>
+                    </div>
+                    <FiArrowRight className="template-arrow" />
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          </motion.div>
         )}
       </AnimatePresence>
     </div>

@@ -11,7 +11,8 @@
     "serve:py": "python3 server.py",
     "package:pi": "npm run build:pi && tar -czf droplet-pi.tar.gz build/ server.js server.py package.json --exclude=node_modules",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "create-template": "node scripts/createOccurrenceTemplate.js"
   },
   "keywords": [
     "data-entry",

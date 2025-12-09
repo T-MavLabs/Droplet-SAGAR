@@ -64,7 +64,7 @@ const WelcomeScreen = ({ onEnter, onEnterDropletDesk }) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8 }}
           >
-            📊 Excel-like Interface
+            Excel-like Interface
           </motion.div>
           <motion.div 
             className="feature-item"
@@ -72,7 +72,7 @@ const WelcomeScreen = ({ onEnter, onEnterDropletDesk }) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.0 }}
           >
-            📱 Tablet Optimized
+            Tablet Optimized
           </motion.div>
           <motion.div 
             className="feature-item"
@@ -80,7 +80,7 @@ const WelcomeScreen = ({ onEnter, onEnterDropletDesk }) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.2 }}
           >
-            💾 Export to Excel/CSV
+            Export to Excel/CSV
           </motion.div>
         </div>
         <div className="welcome-buttons">

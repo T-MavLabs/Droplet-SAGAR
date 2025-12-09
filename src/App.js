@@ -10,6 +10,7 @@ import { saveEntry } from './utils/fileManager';
 function App() {
   const [currentView, setCurrentView] = useState('welcome'); // welcome, dashboard, spreadsheet, dropletdesk
   const [selectedEntry, setSelectedEntry] = useState(null);
+  const [selectedTemplate, setSelectedTemplate] = useState(null);
 
   const handleEnterDashboard = () => {
     setCurrentView('dashboard');
@@ -23,8 +24,9 @@ function App() {
     setCurrentView('welcome');
   };
 
-  const handleNewEntry = () => {
+  const handleNewEntry = (template = null) => {
     setSelectedEntry(null);
+    setSelectedTemplate(template);
     setCurrentView('spreadsheet');
   };
 
@@ -36,6 +38,7 @@ function App() {
   const handleBackToDashboard = () => {
     setCurrentView('dashboard');
     setSelectedEntry(null);
+    setSelectedTemplate(null);
   };
 
   const handleSaveEntry = (filename, data, qualityReport = null) => {
@@ -71,6 +74,7 @@ function App() {
             <Dashboard
               onSelectEntry={handleSelectEntry}
               onNewEntry={handleNewEntry}
+              onBack={handleBackToWelcome}
             />
           </motion.div>
         )}
@@ -85,6 +89,7 @@ function App() {
           >
             <Spreadsheet
               entry={selectedEntry}
+              template={selectedTemplate}
               onBack={handleBackToDashboard}
               onSave={handleSaveEntry}
             />

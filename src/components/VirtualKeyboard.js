@@ -21,29 +21,62 @@ const VirtualKeyboard = ({ onInput, onClose, visible = false }) => {
     ['Z', 'X', 'C', 'V', 'B', 'N', 'M']
   ];
 
-  const handleKeyPress = (key) => {
+  // Punctuation row
+  const punctuation = ['.', ',', '-', '_', '/', ':', ';', '?', '!', "'", '"'];
+
+  const handleKeyPress = (key, e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     if (onInput) {
-      const char = shift || capsLock ? key.toUpperCase() : key.toLowerCase();
+      let char;
+      if (key.match(/[a-z]/i)) {
+        // Letter keys - apply shift or caps lock
+        char = shift || capsLock ? key.toUpperCase() : key.toLowerCase();
+      } else {
+        // Number and symbol keys - use shift for symbols
+        const numberIndex = rows[0].indexOf(key);
+        if (numberIndex >= 0 && shift) {
+          // Use symbol from symbols array
+          char = symbols[0][numberIndex];
+        } else {
+          char = key;
+        }
+      }
+      // Call the input handler
       onInput(char);
-      if (shift) {
-        setShift(false); // Auto-disable shift after one character
+      if (shift && !capsLock) {
+        setShift(false); // Auto-disable shift after one character (unless caps lock is on)
       }
     }
   };
 
-  const handleSpace = () => {
+  const handleSpace = (e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     if (onInput) {
       onInput(' ');
     }
   };
 
-  const handleBackspace = () => {
+  const handleBackspace = (e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     if (onInput) {
       onInput('backspace');
     }
   };
 
-  const handleEnter = () => {
+  const handleEnter = (e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     if (onInput) {
       onInput('enter');
     }
@@ -79,7 +112,9 @@ const VirtualKeyboard = ({ onInput, onClose, visible = false }) => {
               <button
                 key={idx}
                 className="keyboard-key number-key"
-                onClick={() => handleKeyPress(key)}
+                onClick={(e) => handleKeyPress(key, e)}
+                onMouseDown={(e) => e.preventDefault()}
+                onTouchStart={(e) => e.preventDefault()}
               >
                 {shift ? symbols[0][idx] : key}
               </button>
@@ -93,7 +128,9 @@ const VirtualKeyboard = ({ onInput, onClose, visible = false }) => {
                 <button
                   key={keyIdx}
                   className="keyboard-key letter-key"
-                  onClick={() => handleKeyPress(key)}
+                  onClick={(e) => handleKeyPress(key, e)}
+                  onMouseDown={(e) => e.preventDefault()}
+                  onTouchStart={(e) => e.preventDefault()}
                 >
                   {shift || capsLock ? key.toUpperCase() : key}
                 </button>
@@ -101,36 +138,66 @@ const VirtualKeyboard = ({ onInput, onClose, visible = false }) => {
             </div>
           ))}
 
+          {/* Punctuation row */}
+          <div className="keyboard-row">
+            {punctuation.map((punc, idx) => (
+              <button
+                key={idx}
+                className="keyboard-key punctuation-key"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  if (onInput) {
+                    onInput(punc);
+                  }
+                }}
+                onMouseDown={(e) => e.preventDefault()}
+                onTouchStart={(e) => e.preventDefault()}
+              >
+                {punc}
+              </button>
+            ))}
+          </div>
+
           {/* Bottom row with special keys */}
           <div className="keyboard-row keyboard-bottom-row">
             <button
-              className="keyboard-key special-key shift-key"
+              className={`keyboard-key special-key shift-key ${shift ? 'active' : ''}`}
               onClick={toggleShift}
               onMouseDown={(e) => e.preventDefault()}
+              onTouchStart={(e) => e.preventDefault()}
             >
               {capsLock ? 'CAPS' : '⇧'}
             </button>
             <button
-              className="keyboard-key special-key caps-key"
+              className={`keyboard-key special-key caps-key ${capsLock ? 'active' : ''}`}
               onClick={toggleCapsLock}
+              onMouseDown={(e) => e.preventDefault()}
+              onTouchStart={(e) => e.preventDefault()}
             >
               CAPS
             </button>
             <button
               className="keyboard-key space-key"
-              onClick={handleSpace}
+              onClick={(e) => handleSpace(e)}
+              onMouseDown={(e) => e.preventDefault()}
+              onTouchStart={(e) => e.preventDefault()}
             >
               Space
             </button>
             <button
               className="keyboard-key special-key enter-key"
-              onClick={handleEnter}
+              onClick={(e) => handleEnter(e)}
+              onMouseDown={(e) => e.preventDefault()}
+              onTouchStart={(e) => e.preventDefault()}
             >
               <FiCornerDownLeft className="icon" />
             </button>
             <button
               className="keyboard-key special-key backspace-key"
               onClick={handleBackspace}
+              onMouseDown={(e) => e.preventDefault()}
+              onTouchStart={(e) => e.preventDefault()}
             >
               <FiDelete className="icon" />
             </button>

@@ -115,6 +115,15 @@
   transform: scale(0.95);
 }
 
+.keyboard-key:focus {
+  outline: none;
+}
+
+.keyboard-key:focus-visible {
+  outline: 2px solid rgba(0, 212, 255, 0.5);
+  outline-offset: 2px;
+}
+
 .keyboard-key:hover {
   background: rgba(0, 212, 255, 0.2);
   border-color: rgba(0, 212, 255, 0.4);
@@ -130,6 +139,12 @@
   flex: 1;
   max-width: 36px;
   font-size: 0.8125rem;
+}
+
+.punctuation-key {
+  flex: 1;
+  max-width: 32px;
+  font-size: 0.75rem;
 }
 
 .special-key {
@@ -148,6 +163,11 @@
 .caps-key.active {
   background: rgba(0, 212, 255, 0.4);
   border-color: rgba(0, 212, 255, 0.6);
+}
+
+.backspace-key:active {
+  background: rgba(239, 68, 68, 0.3);
+  border-color: rgba(239, 68, 68, 0.5);
 }
 
 .space-key {

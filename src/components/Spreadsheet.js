@@ -8,7 +8,7 @@ import { syncNotesToSupabase, updateFilenameInSupabase, syncFileDataToSupabase, 
 import { renameEntry } from '../utils/fileManager';
 import VirtualKeyboard from './VirtualKeyboard';
 
-const Spreadsheet = ({ entry, onBack, onSave }) => {
+const Spreadsheet = ({ entry, template, onBack, onSave }) => {
   const [columns, setColumns] = useState([
     { key: 'col1', name: 'Column 1', editable: true, width: 150 }
   ]);
@@ -39,7 +39,7 @@ const Spreadsheet = ({ entry, onBack, onSave }) => {
   const notesRef = useRef(null);
   const filenameInputRef = useRef(null);
 
-  // Load entry data if provided
+  // Load entry data if provided, or template if provided
   useEffect(() => {
     if (entry && entry.data) {
       setColumns(entry.data.columns || [{ key: 'col1', name: 'Column 1', editable: true, width: 70 }]);
@@ -48,13 +48,22 @@ const Spreadsheet = ({ entry, onBack, onSave }) => {
       setFilename(entryFilename);
       setPreviousFilename(entryFilename); // Track original filename for Supabase sync
       setNotes(entry.data.notes || ''); // Load notes if they exist
+    } else if (template) {
+      // Load template columns
+      const templateColumns = template.load();
+      setColumns(templateColumns);
+      setRows([{}]); // Start with one empty row
+      const templateFilename = `${template.name.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.xlsx`;
+      setFilename(templateFilename);
+      setPreviousFilename(templateFilename);
+      setNotes('');
     } else {
       const defaultFilename = `Entry_${new Date().toISOString().split('T')[0]}.xlsx`;
       setFilename(defaultFilename);
       setPreviousFilename(defaultFilename);
       setNotes('');
     }
-  }, [entry]);
+  }, [entry, template]);
 
   // Initialize with empty row
   useEffect(() => {
@@ -62,6 +71,16 @@ const Spreadsheet = ({ entry, onBack, onSave }) => {
       setRows([{}]);
     }
   }, [rows.length]);
+
+  // Ensure input field stays focused and in sync
+  useEffect(() => {
+    if (inputRef.current && editingCell) {
+      // Keep input focused when editing
+      if (document.activeElement !== inputRef.current) {
+        inputRef.current.focus();
+      }
+    }
+  }, [editingCell, editValue]);
 
   // Close menu when clicking outside
   useEffect(() => {
@@ -455,29 +474,49 @@ const Spreadsheet = ({ entry, onBack, onSave }) => {
 
   // Handle virtual keyboard input
   const handleKeyboardInput = (char) => {
+    // Validate input - allow all characters including space, but reject null/undefined
+    if (char === null || char === undefined) {
+      return;
+    }
+    
     if (char === 'backspace') {
       if (keyboardTarget === 'notes') {
         setNotes(prev => {
-          const newNotes = prev.slice(0, -1);
+          const newNotes = prev.length > 0 ? prev.slice(0, -1) : '';
           handleNotesChange(newNotes);
           return newNotes;
         });
       } else if (editingCell) {
-        const newValue = editValue.slice(0, -1);
+        const newValue = editValue.length > 0 ? editValue.slice(0, -1) : '';
         setEditValue(newValue);
         handleCellChange(newValue);
       } else if (keyboardTarget === 'cell') {
         // Handle filename or header input
         const activeEl = document.activeElement;
         if (activeEl?.classList.contains('filename-input')) {
-          setFilename(prev => prev.slice(0, -1));
+          const currentValue = activeEl.value || filename;
+          const newValue = currentValue.length > 0 ? currentValue.slice(0, -1) : '';
+          setFilename(newValue);
+          // Update the input field directly using setAttribute to bypass readOnly
+          if (activeEl) {
+            activeEl.removeAttribute('readonly');
+            activeEl.value = newValue;
+            activeEl.setAttribute('readonly', 'readonly');
+          }
         } else if (activeEl?.classList.contains('header-input')) {
           const colKey = activeEl?.dataset?.colKey;
           if (colKey) {
             const col = columns.find(c => c.key === colKey);
             if (col) {
-              const newName = col.name.slice(0, -1);
+              const currentName = activeEl.value || col.name;
+              const newName = currentName.length > 0 ? currentName.slice(0, -1) : '';
               handleRenameColumn(colKey, newName);
+              // Update the input field directly
+              if (activeEl) {
+                activeEl.removeAttribute('readonly');
+                activeEl.value = newName;
+                activeEl.setAttribute('readonly', 'readonly');
+              }
             }
           }
         }
@@ -492,8 +531,15 @@ const Spreadsheet = ({ entry, onBack, onSave }) => {
       } else if (editingCell) {
         finishEditing();
         setShowKeyboard(false);
+      } else {
+        // Handle enter for filename/header inputs
+        const activeEl = document.activeElement;
+        if (activeEl?.classList.contains('filename-input') || activeEl?.classList.contains('header-input')) {
+          activeEl.blur();
+        }
       }
     } else {
+      // Regular character input
       if (keyboardTarget === 'notes') {
         setNotes(prev => {
           const newNotes = prev + char;
@@ -501,20 +547,45 @@ const Spreadsheet = ({ entry, onBack, onSave }) => {
           return newNotes;
         });
       } else if (editingCell) {
-        const newValue = editValue + char;
-        setEditValue(newValue);
-        handleCellChange(newValue);
+        // Update the editValue state using functional update to avoid stale closures
+        setEditValue(prevValue => {
+          const newValue = (prevValue || '') + char;
+          // Update the row data immediately with the new value
+          const newRows = [...rows];
+          if (!newRows[editingCell.rowIndex]) {
+            newRows[editingCell.rowIndex] = {};
+          }
+          newRows[editingCell.rowIndex][editingCell.colKey] = newValue;
+          setRows(newRows);
+          return newValue;
+        });
       } else if (keyboardTarget === 'cell') {
         // Handle filename or header input
         const activeEl = document.activeElement;
         if (activeEl?.classList.contains('filename-input')) {
-          setFilename(prev => prev + char);
+          const currentValue = activeEl.value || filename;
+          const newValue = currentValue + char;
+          setFilename(newValue);
+          // Update the input field directly using setAttribute to bypass readOnly
+          if (activeEl) {
+            activeEl.removeAttribute('readonly');
+            activeEl.value = newValue;
+            activeEl.setAttribute('readonly', 'readonly');
+          }
         } else if (activeEl?.classList.contains('header-input')) {
           const colKey = activeEl?.dataset?.colKey;
           if (colKey) {
             const col = columns.find(c => c.key === colKey);
             if (col) {
-              handleRenameColumn(colKey, col.name + char);
+              const currentName = activeEl.value || col.name;
+              const newName = currentName + char;
+              handleRenameColumn(colKey, newName);
+              // Update the input field directly
+              if (activeEl) {
+                activeEl.removeAttribute('readonly');
+                activeEl.value = newName;
+                activeEl.setAttribute('readonly', 'readonly');
+              }
             }
           }
         }
