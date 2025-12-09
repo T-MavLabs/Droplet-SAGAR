@@ -13,6 +13,7 @@ This guide explains how to deploy Droplet on a Raspberry Pi running Alpine Linux
 
 ### Option 1: Build on Development Machine (Recommended)
 
+
 1. **Build optimized bundle:**
    ```bash
    npm run build:pi
