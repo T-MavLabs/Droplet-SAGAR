@@ -19,7 +19,105 @@
   bottom: 0;
 }
 
+/* Header - Ultra-compact for 3.5 inch screen */
+.dashboard-header {
+  background: rgba(10, 25, 41, 0.98); /* bg-marine-blue/98 */
+  backdrop-filter: blur(4px); /* backdrop-blur-sm */
+  border-bottom: 1px solid rgba(0, 212, 255, 0.2); /* border-b border-marine-cyan/20 */
+  padding: 0.375rem 0.5rem; /* Minimal padding for 3.5 inch screen */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  height: 42px; /* Fixed compact height for 3.5 inch screen */
+}
 
+.header-content {
+  max-width: 1280px; /* max-w-7xl */
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: opacity 200ms;
+}
+
+.header-logo:hover {
+  opacity: 0.8;
+}
+
+.logo-icon {
+  width: 24px;
+  height: 24px;
+  color: #00d4ff; /* marine-cyan */
+  transition: color 200ms;
+}
+
+.header-logo:hover .logo-icon {
+  color: #00b8e6; /* Slightly brighter on hover */
+}
+
+.logo-text {
+  font-size: 0.75rem; /* Smaller logo for 3.5 inch screen */
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.header-nav {
+  display: none; /* Hide nav links on pocket device */
+}
+
+.nav-link {
+  color: #d1d5db; /* text-gray-300 */
+  text-decoration: none;
+  font-size: 0.875rem;
+  transition: color 200ms;
+}
+
+.nav-link:hover {
+  color: #00d4ff; /* hover:text-marine-cyan */
+}
+
+/* Show nav on larger screens */
+@media (min-width: 1024px) {
+  .header-nav {
+    display: flex;
+    gap: 2rem;
+    flex: 1;
+    justify-content: center;
+  }
+}
+
+.header-right {
+  display: none; /* Hide welcome/logout on pocket device */
+}
+
+.welcome-text {
+  color: #d1d5db; /* text-gray-300 */
+  font-size: 0.875rem;
+}
+
+/* Show on larger screens */
+@media (min-width: 1024px) {
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+}
 
 .header-button {
   display: flex;
